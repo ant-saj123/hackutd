@@ -15,7 +15,7 @@ def evaluate_homebuyers(data):
     results = []
     for buyer in data:
         credit_rating = int(buyer['CreditScore'])
-        ltv = (float(buyer['MonthlyMortgagePayment']) / float(buyer['AppraisedValue'])) * 100
+        ltv = ((float(buyer['AppraisedValue']) - float(buyer['DownPayment'])) / float(buyer['AppraisedValue'])) * 100
         dti = (float(buyer['CarPayment']) + float(buyer['CreditCardPayment']) +
                float(buyer['StudentLoanPayments'])) / float(buyer['GrossMonthlyIncome']) * 100
         fedti = float(buyer['MonthlyMortgagePayment']) / float(buyer['GrossMonthlyIncome']) * 100
