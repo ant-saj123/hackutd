@@ -9,6 +9,8 @@ def read_data(file_path):
             data.append(row)
     return data
 
+    //hello
+
 # Evaluate homebuyers and provide suggestions
 def evaluate_homebuyers(data):
     results = []
