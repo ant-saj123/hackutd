@@ -1,4 +1,5 @@
 import csv
+import streamlit as st
 
 # Read data from the CSV file
 def read_data(file_path):
@@ -17,7 +18,7 @@ def evaluate_homebuyers(data):
         credit_rating = int(buyer['CreditScore'])
         ltv = ((float(buyer['AppraisedValue']) - float(buyer['DownPayment'])) / float(buyer['AppraisedValue'])) * 100
         dti = (float(buyer['CarPayment']) + float(buyer['CreditCardPayment']) +
-               float(buyer['StudentLoanPayments'])) / float(buyer['GrossMonthlyIncome']) * 100
+               float(buyer['StudentLoanPayments']) + float(buyer['MonthlyMortgagePayment'])) / float(buyer['GrossMonthlyIncome']) * 100
         fedti = float(buyer['MonthlyMortgagePayment']) / float(buyer['GrossMonthlyIncome']) * 100
         
         if credit_rating >= 640 and ltv < 80 and dti <= 43 and fedti <= 28:
@@ -29,7 +30,7 @@ def evaluate_homebuyers(data):
             if ltv >= 80:
                 suggestions.append('Increase down payment or look for a less expensive home')
             if dti > 43:
-                suggestions.append('Pay off debt or transfer to lower interest loans')
+                suggestions.append('Pay off debt or transfer to lower interest loans/credit cards')
             if fedti > 28:
                 suggestions.append('Reduce housing expenses')
             results.append('N ' + ', '.join(suggestions))  # Not Approved with suggestions
@@ -43,3 +44,18 @@ if __name__ == "__main__":
     # Output results
     for result in results:
         print(result)
+
+def main():
+    st.title('Homebuyer Evaluation Results')
+
+    # Upload CSV file
+    uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
+    if uploaded_file is not None:
+        data = read_data(uploaded_file)
+        results = evaluate_homebuyers(data)
+
+        # Display results in a table
+        st.table(results)
+
+if __name__ == "__main__":
+    main()
