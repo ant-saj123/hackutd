@@ -10,11 +10,13 @@ def read_data(file_path):
             data.append(row)
     return data
 
-
 # Evaluate homebuyers and provide suggestions
 def evaluate_homebuyers(data):
     results = []
-    for buyer in data:
+    # Skip the first row (column names) when processing the data
+    for idx, buyer in enumerate(data, start = 1):
+        if idx == 1:
+            continue
         credit_rating = int(buyer['CreditScore'])
         ltv = ((float(buyer['AppraisedValue']) - float(buyer['DownPayment'])) / float(buyer['AppraisedValue'])) * 100
         dti = (float(buyer['CarPayment']) + float(buyer['CreditCardPayment']) +
@@ -35,27 +37,16 @@ def evaluate_homebuyers(data):
                 suggestions.append('Reduce housing expenses')
             results.append('N ' + ', '.join(suggestions))  # Not Approved with suggestions
     return results
+def main():
+    st.title('Homebuyer Evaluation Results')
 
-if __name__ == "__main__":
+    # Specify the file path
     file_path = r'C:\Users\Antony Sajesh\OneDrive\Desktop\hackutd\HackUTD-2023-HomeBuyerInfo.csv'
     data = read_data(file_path)
     results = evaluate_homebuyers(data)
 
-    # Output results
-    for result in results:
-        print(result)
-
-def main():
-    st.title('Homebuyer Evaluation Results')
-
-    # Upload CSV file
-    uploaded_file = st.file_uploader("Upload CSV file", type=["csv"])
-    if uploaded_file is not None:
-        data = read_data(uploaded_file)
-        results = evaluate_homebuyers(data)
-
-        # Display results in a table
-        st.table(results)
+    # Display results in a table
+    st.table(results)
 
 if __name__ == "__main__":
     main()
