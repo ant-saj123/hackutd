@@ -12,15 +12,10 @@ st.set_page_config(
 logoUrl = 'https://www.fanniemae.com/sites/g/files/koqyhd191/files/2020-10/fannie-mae-logo-dark-blue.png'
 st.image(logoUrl, width=500)
 
-st.title("Homepage")
+st.title("Welcome to ReadySetHome!")
+st.header("\"Your Future, Your Home, Our Priority\"")
+
 st.sidebar.success("Select a page above.")
 
-if "my_input" not in st.session_state:
-    st.session_state["my_input"] = ""
-
-
-my_input = st.text_input("Input a text here", st.session_state["my_input"])
-submit = st.button("Submit")
-if submit:
-    st.session_state["my_input"] = my_input
-    st.write("You have entered: ", my_input)
+people = "https://www.fanniemae.com/sites/g/files/koqyhd191/files/styles/16_9_letterbox/public/2023-07/lafm-stories-hero-image.jpg?h=acac93ba&itok=s_gjMgh8"
+st.image(people, width=800)
